@@ -1,7 +1,8 @@
+import { gql } from '@apollo/client';
 import { Avatar, Grid, ListItem as MUIListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
-import { Maybe } from 'types/gen/graphql-types';
-import Link from '../link/Link';
-import Media from '../Media';
+import { useToolQuery } from 'types/gen/graphql-types';
+import Link from './link/Link';
+import Media from './Media';
 
 export type Link = {
   label: string;
@@ -9,13 +10,37 @@ export type Link = {
   as?: string;
 };
 
-type Props = {
-  name: string;
-  image: Maybe<string> | undefined;
-  link: Link;
+type ToolProps = {
+  id: string;
 };
 
-export default function ListItem({ name, image, link }: Props) {
+export const QUERY_TOOL = gql`
+  query Tool($id: String!) {
+    tool(where: { id: $id }) {
+      id
+      name
+      description
+      link
+      image
+    }
+  }
+`;
+
+export default function Tool({ id }: ToolProps) {
+  const { data } = useToolQuery({
+    variables: {
+      id
+    }
+  });
+
+  const name = data?.tool?.name ?? '';
+  const image = data?.tool?.image;
+  const link = {
+    href: '/tool/[id]',
+    as: `/tool/${id}`,
+    label: 'Learn More',
+  }
+
   return (
     <MUIListItem divider>
       <Grid container alignItems="center">
@@ -37,7 +62,7 @@ export default function ListItem({ name, image, link }: Props) {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <Link href={link.href} as={link?.as} label={link.label} />
+          {<Link href={link.href} as={link?.as} label={link.label} />}
         </Grid>
       </Grid>
     </MUIListItem>

@@ -9,31 +9,31 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../services/prisma';
 
 export interface GraphQLContext {
-    prisma: PrismaClient;
-    req: NextApiRequest;
-    res: NextApiResponse;
+  prisma: PrismaClient;
+  req: NextApiRequest;
+  res: NextApiResponse;
 }
 
 export const config = {
-    api: {
-        bodyParser: false,
-    },
+  api: {
+    bodyParser: false,
+  },
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const schema = await buildSchema({
-        resolvers: [...resolvers],
-        validate: false,
-    });
-    const apolloServer = new ApolloServer({
-        schema,
-        plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-        context: (): GraphQLContext => ({ prisma: prisma(), req, res }),
-    });
+  const schema = await buildSchema({
+    resolvers: [...resolvers],
+    validate: false,
+  });
+  const apolloServer = new ApolloServer({
+    schema,
+    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    context: (): GraphQLContext => ({ prisma: prisma(), req, res }),
+  });
 
-    await apolloServer.start();
+  await apolloServer.start();
 
-    await apolloServer.createHandler({
-        path: '/api/graphql',
-    })(req, res);
+  await apolloServer.createHandler({
+    path: '/api/graphql',
+  })(req, res);
 }

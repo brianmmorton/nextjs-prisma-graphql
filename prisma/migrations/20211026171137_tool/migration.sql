@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Tool" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "link" TEXT NOT NULL,

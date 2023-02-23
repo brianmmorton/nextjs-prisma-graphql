@@ -8,8 +8,16 @@ async function main() {
             where: {
                 name: tool.name,
             },
-            create: tool,
-            update: tool,
+            create: {
+                ...tool,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
+            update: {
+                ...tool,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+            },
         });
     }
 }
