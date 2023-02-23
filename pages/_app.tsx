@@ -5,8 +5,8 @@ import { AppProps } from 'next/app';
 import React, { useEffect } from 'react';
 import theme from '../lib/theme';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient } from "graphql-ws";
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
 
 // Determines if we are running on server or in client.
 const isServerSideRendered = () => {
@@ -14,14 +14,16 @@ const isServerSideRendered = () => {
 };
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:3000/graphql'
+  uri: 'http://localhost:3000/graphql',
 });
 
 const wsLink = () => {
-  return new GraphQLWsLink(createClient({
-    url: 'ws://localhost:3000/graphql'
-  }));
-}
+  return new GraphQLWsLink(
+    createClient({
+      url: 'ws://localhost:3000/graphql',
+    })
+  );
+};
 
 export const client = new ApolloClient({
   link: isServerSideRendered() ? httpLink : wsLink(),

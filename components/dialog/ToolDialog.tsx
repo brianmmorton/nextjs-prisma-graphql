@@ -57,14 +57,7 @@ export default function ToolDialog({ open, onClose }: Props): ReactElement {
                 name="name"
                 control={control}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Tool Name"
-                    variant="outlined"
-                    required
-                    margin="dense"
-                    autoFocus={true}
-                  />
+                  <TextField {...field} label="Tool Name" variant="outlined" required margin="dense" autoFocus={true} />
                 )}
               />
             </Grid>
@@ -90,13 +83,7 @@ export default function ToolDialog({ open, onClose }: Props): ReactElement {
                 name="image"
                 control={control}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    multiline
-                    variant="outlined"
-                    label="Tool image link"
-                    margin="dense"
-                  />
+                  <TextField {...field} multiline variant="outlined" label="Tool image link" margin="dense" />
                 )}
               />
             </Grid>
@@ -105,14 +92,7 @@ export default function ToolDialog({ open, onClose }: Props): ReactElement {
                 name="link"
                 control={control}
                 render={({ field }) => (
-                  <TextField
-                    {...field}
-                    multiline
-                    required
-                    variant="outlined"
-                    label="Tool website"
-                    margin="dense"
-                  />
+                  <TextField {...field} multiline required variant="outlined" label="Tool website" margin="dense" />
                 )}
               />
             </Grid>

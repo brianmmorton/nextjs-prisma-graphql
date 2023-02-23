@@ -2,9 +2,9 @@ import { prisma } from '../../../lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('HOOK: ', req.body)
+  console.log('HOOK: ', req.body);
   const { given_name, family_name, email, picture, secret } = req.body;
-  console.log('RUNNING HOOK ', email)
+  console.log('RUNNING HOOK ', email);
 
   if (req.method !== 'POST') {
     return res.status(403).json({ message: 'Method not allowed' });

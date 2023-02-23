@@ -29,8 +29,8 @@ export const QUERY_TOOL = gql`
 export default function Tool({ id }: ToolProps) {
   const { data } = useToolQuery({
     variables: {
-      id
-    }
+      id,
+    },
   });
 
   const name = data?.tool?.name ?? '';
@@ -39,7 +39,7 @@ export default function Tool({ id }: ToolProps) {
     href: '/tool/[id]',
     as: `/tool/${id}`,
     label: 'Learn More',
-  }
+  };
 
   return (
     <MUIListItem divider>

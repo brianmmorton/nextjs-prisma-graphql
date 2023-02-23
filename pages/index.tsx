@@ -20,10 +20,10 @@ export const QUERY_TOOLS = gql`
   }
 `;
 
-export default function Home({ user }: { user?: User  | null; }) {
+export default function Home({ user }: { user?: User | null }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { data } = useToolsQuery({
-    skip: !user
+    skip: !user,
   });
 
   if (!user) {
@@ -32,21 +32,9 @@ export default function Home({ user }: { user?: User  | null; }) {
         <Layout title="Boiler">
           <Grid container spacing={4} direction="column" sx={{ padding: '2em' }}>
             <Grid item container spacing={4} direction="column">
-              <Grid
-                item
-                container
-                spacing={4}
-                alignContent="center"
-                justifyContent="center"
-                direction="column"
-              >
+              <Grid item container spacing={4} alignContent="center" justifyContent="center" direction="column">
                 <Grid item container justifyContent="center">
-                  <Button
-                    variant="contained"
-                    href='/api/auth/login'
-                    color="primary"
-                    component="a"
-                  >
+                  <Button variant="contained" href="/api/auth/login" color="primary" component="a">
                     Login
                   </Button>
                 </Grid>
@@ -63,14 +51,7 @@ export default function Home({ user }: { user?: User  | null; }) {
       <Layout title="Boiler">
         <Grid container spacing={4} direction="column" sx={{ padding: '2em' }}>
           <Grid item container spacing={4} direction="column">
-            <Grid
-              item
-              container
-              spacing={4}
-              alignContent="center"
-              justifyContent="center"
-              direction="column"
-            >
+            <Grid item container spacing={4} alignContent="center" justifyContent="center" direction="column">
               <Grid item container justifyContent="center">
                 <Typography variant="h5" component="h2">
                   Tools
@@ -94,7 +75,9 @@ export default function Home({ user }: { user?: User  | null; }) {
                   },
                 })}
               >
-                {data?.tools.map(({ id }) => <Tool id={id} />)}
+                {data?.tools.map(({ id }) => (
+                  <Tool key={id} id={id} />
+                ))}
               </List>
             </Grid>
           </Grid>
