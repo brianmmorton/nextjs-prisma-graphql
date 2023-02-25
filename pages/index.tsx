@@ -21,6 +21,7 @@ export const QUERY_TOOLS = gql`
 `;
 
 export default function Home({ user }: { user?: User  | null; }) {
+  console.log(user);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { data } = useToolsQuery({
     skip: !user

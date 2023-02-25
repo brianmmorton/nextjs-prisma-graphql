@@ -23,7 +23,9 @@
     "target": "esnext",
     "sourceMap": true,
     "outDir": "dist",
-    "incremental": true
+    "incremental": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "exclude": [
     "node_modules"

@@ -6,7 +6,9 @@ import { resolvers } from '@generated/type-graphql';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { SampleResolver } from '../../lib/resolvers/notifications';
 import prisma from '../../services/prisma';
+import { BookmarkedToolResolver } from 'lib/resolvers/bookmarkedTools';
 
 export interface GraphQLContext {
   prisma: PrismaClient;
@@ -22,11 +24,13 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const schema = await buildSchema({
-    resolvers: [...resolvers],
+    resolvers: [...resolvers, SampleResolver, BookmarkedToolResolver],
     validate: false,
+    emitSchemaFile: true
   });
   const apolloServer = new ApolloServer({
     schema,
+    introspection: true,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     context: (): GraphQLContext => ({ prisma: prisma(), req, res }),
   });

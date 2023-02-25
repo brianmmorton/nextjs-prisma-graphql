@@ -404,6 +404,9 @@ export type Mutation = {
   deleteOneBookmarkedTool?: Maybe<BookmarkedTool>;
   deleteOneTool?: Maybe<Tool>;
   deleteOneUser?: Maybe<User>;
+  pubSubMutation: Scalars['Boolean'];
+  pubSubMutationToDynamicTopic: Scalars['Boolean'];
+  publisherMutation: Scalars['Boolean'];
   updateManyBookmarkedTool: AffectedRowsOutput;
   updateManyTool: AffectedRowsOutput;
   updateManyUser: AffectedRowsOutput;
@@ -476,6 +479,22 @@ export type MutationDeleteOneToolArgs = {
 
 export type MutationDeleteOneUserArgs = {
   where: UserWhereUniqueInput;
+};
+
+
+export type MutationPubSubMutationArgs = {
+  message?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationPubSubMutationToDynamicTopicArgs = {
+  message?: InputMaybe<Scalars['String']>;
+  topic: Scalars['String'];
+};
+
+
+export type MutationPublisherMutationArgs = {
+  message?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -644,6 +663,13 @@ export type NestedStringWithAggregatesFilter = {
   startsWith?: InputMaybe<Scalars['String']>;
 };
 
+export type Notification = {
+  __typename?: 'Notification';
+  date: Scalars['DateTime'];
+  id: Scalars['ID'];
+  message?: Maybe<Scalars['String']>;
+};
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: InputMaybe<Scalars['String']>;
 };
@@ -655,6 +681,7 @@ export type Query = {
   aggregateUser: AggregateUser;
   bookmarkedTool?: Maybe<BookmarkedTool>;
   bookmarkedTools: Array<BookmarkedTool>;
+  currentDate: Scalars['DateTime'];
   findFirstBookmarkedTool?: Maybe<BookmarkedTool>;
   findFirstTool?: Maybe<Tool>;
   findFirstUser?: Maybe<User>;
@@ -877,6 +904,19 @@ export type StringWithAggregatesFilter = {
   not?: InputMaybe<NestedStringWithAggregatesFilter>;
   notIn?: InputMaybe<Array<Scalars['String']>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  bookmarkedToolCreated: BookmarkedTool;
+  normalSubscription: Notification;
+  subscriptionWithFilter: Notification;
+  subscriptionWithFilterToDynamicTopic: Notification;
+};
+
+
+export type SubscriptionSubscriptionWithFilterToDynamicTopicArgs = {
+  topic: Scalars['String'];
 };
 
 export type Tool = {
@@ -1427,6 +1467,11 @@ export type ToolsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ToolsQuery = { __typename?: 'Query', tools: Array<{ __typename?: 'Tool', id: string, name: string, description: string, link: string, image?: string | null }> };
 
+export type BookmarkedToolCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type BookmarkedToolCreatedSubscription = { __typename?: 'Subscription', bookmarkedToolCreated: { __typename?: 'BookmarkedTool', id: string, userId: string, toolId: string } };
+
 export type ToolPageQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -1565,6 +1610,37 @@ export function useToolsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Tool
 export type ToolsQueryHookResult = ReturnType<typeof useToolsQuery>;
 export type ToolsLazyQueryHookResult = ReturnType<typeof useToolsLazyQuery>;
 export type ToolsQueryResult = Apollo.QueryResult<ToolsQuery, ToolsQueryVariables>;
+export const BookmarkedToolCreatedDocument = gql`
+    subscription BookmarkedToolCreated {
+  bookmarkedToolCreated {
+    id
+    userId
+    toolId
+  }
+}
+    `;
+
+/**
+ * __useBookmarkedToolCreatedSubscription__
+ *
+ * To run a query within a React component, call `useBookmarkedToolCreatedSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useBookmarkedToolCreatedSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useBookmarkedToolCreatedSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useBookmarkedToolCreatedSubscription(baseOptions?: Apollo.SubscriptionHookOptions<BookmarkedToolCreatedSubscription, BookmarkedToolCreatedSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<BookmarkedToolCreatedSubscription, BookmarkedToolCreatedSubscriptionVariables>(BookmarkedToolCreatedDocument, options);
+      }
+export type BookmarkedToolCreatedSubscriptionHookResult = ReturnType<typeof useBookmarkedToolCreatedSubscription>;
+export type BookmarkedToolCreatedSubscriptionResult = Apollo.SubscriptionResult<BookmarkedToolCreatedSubscription>;
 export const ToolPageDocument = gql`
     query ToolPage($id: String!) {
   tool(where: {id: $id}) {

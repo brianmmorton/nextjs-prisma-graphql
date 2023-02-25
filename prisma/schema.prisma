@@ -17,6 +17,7 @@ generator erd {
 
 generator typegraphql {
   provider = "typegraphql-prisma"
+  emitTranspiledCode = true
 }
 
 model Tool {

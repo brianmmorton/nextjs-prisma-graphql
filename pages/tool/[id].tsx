@@ -5,13 +5,23 @@ import gql from 'graphql-tag';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, ReactElement } from 'react';
-import { useToolPageQuery, useCreateOneBookmarkedToolMutation, useDeleteOneBookmarkedToolMutation } from 'types/gen/graphql-types';
+import { useToolPageQuery, useCreateOneBookmarkedToolMutation, useDeleteOneBookmarkedToolMutation, useBookmarkedToolCreatedSubscription } from 'types/gen/graphql-types';
 import { withUser } from 'hoc/withUser';
 import { User } from 'types/user';
 
 interface URLParams {
   id?: string;
 }
+
+export const SUBSCRIPTION_BOOKMARKED_TOOL_CREATED = gql`
+  subscription BookmarkedToolCreated {
+		bookmarkedToolCreated {
+			id
+			userId
+			toolId
+		}
+  }
+`;
 
 export const QUERY_TOOL = gql`
   query ToolPage($id: String!) {
@@ -48,6 +58,8 @@ export default function ToolInfo({ user }: { user: User }): ReactElement {
   const { data } = useToolPageQuery({ variables: { id: query.id || '' } });
   const [createOneBookmarkedTool] = useCreateOneBookmarkedToolMutation();
   const [deleteOneBookmarkedTool] = useDeleteOneBookmarkedToolMutation();
+	const x = useBookmarkedToolCreatedSubscription();
+	console.log(x);
 
 	const bookmark = user.bookmarkedTools.find(({ toolId }) => toolId === query.id);
 

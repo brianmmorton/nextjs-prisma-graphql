@@ -14,12 +14,12 @@ const isServerSideRendered = () => {
 };
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:3000/graphql'
+  uri: 'http://localhost:3000/api/graphql'
 });
 
 const wsLink = () => {
   return new GraphQLWsLink(createClient({
-    url: 'ws://localhost:3000/graphql'
+    url: 'ws://localhost:3000/api/graphql'
   }));
 }
 
